@@ -369,7 +369,9 @@ They also expose STL-style iteration.
 
 | Java (declared or constructed type) | C++ |
 |---|---|
-| `List`, `ArrayList`, `LinkedList` used as list, `Vector`, `FastList`, `CopyOnWriteArrayList`, `Collection`, `Iterable`, `AbstractList` | `jlang::List<E>*` |
+| `List`, `ArrayList`, `LinkedList` used as list, `Vector`, `FastList`, `CopyOnWriteArrayList`, `AbstractList` | `jlang::List<E>*` |
+| `Collection`, `AbstractCollection` | `jlang::Collection<E>*` (polymorphic base of `List`, `Set`, `Deque`) |
+| `Iterable` | `jlang::Iterable<E>*` |
 | `Set`, `HashSet`, `LinkedHashSet`, `FastSet` | `jlang::Set<E>*` (insertion ordered) |
 | `TreeSet`, `SortedSet`, `EnumSet` | `jlang::TreeSet<E>*` |
 | `Map`, `HashMap`, `LinkedHashMap`, `FastMap`, `THashMap`, `Hashtable`, `ConcurrentHashMap`, `ConcurrentMap`, `IdentityHashMap` | `jlang::Map<K,V>*` (insertion ordered) |
@@ -391,6 +393,13 @@ They also expose STL-style iteration.
   **snapshots** (`jlang::List<...>*`). To remove while iterating, use
   `it = coll->iterator(); while (it->hasNext()) { ... it->remove(); }`, which works on
   every `jlang` collection.
+* **`remove` on value collections:** `List<int32_t>::remove(i)` removes by **index**
+  (like `List.remove(int)`); to remove an int *value* use `removeObject(v)`. Java
+  `coll.remove(Integer.valueOf(x))` / `set.remove(x)` → `removeObject(x)`.
+* Ordered maps/sets are ports of Java's red-black tree (comparators that never return 0,
+  used to keep duplicates, work as in Java). `subList`, `Arrays.asList`, head/tail/sub maps
+  are copies. `unmodifiableX`/`emptyX`/`singletonX` return ordinary mutable collections.
+* `BitSet`'s `and`/`or`/`xor` are `and_`/`or_`/`xor_`.
 * `map->get(k)` returns the mapped value or the Java default (`nullptr` for
   pointers, `0` for numbers, null `String`). Java code that relies on
   `Integer v = map.get(k); if (v == null)` must use `containsKey` or

@@ -90,8 +90,8 @@ java.lang.management.LockInfo	jlang::Object*	core	unsupported
 java.lang.management.MonitorInfo	jlang::Object*	core	unsupported
 java.lang.management.RuntimeMXBean	jlang::Object*	core	unsupported
 # ---------------------------------------------------------------- java.util collections
-java.util.Collection	jlang::List<$0>*	core	ptr
-java.util.AbstractCollection	jlang::List<$0>*	core	ptr
+java.util.Collection	jlang::Collection<$0>*	core	ptr	polymorphic base of List/Set/Deque; map.values()/keySet() return List (a Collection)
+java.util.AbstractCollection	jlang::Collection<$0>*	core	ptr
 java.util.List	jlang::List<$0>*	core	ptr
 java.util.ArrayList	jlang::List<$0>*	core	ptr
 java.util.LinkedList	jlang::List<$0>*	core	ptr	if used as Queue/Deque (poll/offer/addLast...) the declared type decides; List has addFirst/addLast/removeFirst/removeLast/getFirst/getLast/poll/peek too
