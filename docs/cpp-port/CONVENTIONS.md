@@ -31,7 +31,12 @@ The port is done in three layers:
 * Required flags (set by CMake for every target):
   `-fwrapv` (Java integer overflow wraps), `-fno-strict-aliasing`,
   `-fnon-call-exceptions` (null dereferences become `jlang::NullPointerException`),
-  `-pthread`.
+  `-pthread`, and for GCC `-fno-delete-dead-exceptions` (otherwise GCC deletes calls
+  whose only effect would be a null-pointer fault, silently skipping the NPE Java throws).
+* Converting faults into exceptions (null dereference → `NullPointerException`, integer
+  division by zero → `ArithmeticException`) only works with GCC. Clang ignores
+  `-fnon-call-exceptions`, so Clang builds are for compile checks only; the servers are
+  built with GCC.
 * Dependencies: Boehm GC (`bdw-gc`, threads enabled), MariaDB Connector/C
   (`libmariadb`), pugixml, OpenSSL (`libcrypto`), zlib, PCRE2 (`libpcre2-8`, for
   java.util.regex). Only `jlang/src/*.cpp`
@@ -237,6 +242,8 @@ class Iface : public virtual jlang::Object, public virtual SuperIface { ... };  
   value lazily).
 * Java `volatile` fields → `std::atomic<T>` (reads and writes keep Java syntax).
 * Java `final` instance fields are **not** `const`.
+* `clone()`: `super.clone()` in a `Cloneable` class → `new Foo(*this)` (a shallow copy,
+  like `Object.clone`). `jlang::Object::clone()` throws `CloneNotSupportedException`.
 
 ### 5.4 Static members
 
@@ -340,6 +347,10 @@ matches() format(...) valueOf(...) toCharArray() getBytes(charset)`, and more.
   `const char*`, all arithmetic types (formatted like Java: `1.0f` → `"1.0"`),
   `char16_t` (appended as a character), `bool` (`"true"`), enums (name),
   `jlang::Object*` (`toString()` or `"null"`).
+* **Indices are UTF-8 byte offsets.** `length()`, `charAt()`, `substring()` and
+  `indexOf()` count bytes, which equals Java's UTF-16 indices for ASCII text (all
+  protocol-relevant text in this codebase). `hashCode()`, `toCharArray()`, `getBytes()`,
+  `compareTo()` and `equalsIgnoreCase()` are exact for any text.
 * `char` literals → `u'x'` (`char16_t`). Strings are UTF-8 internally; packet
   `writeS`/`readS` convert to and from UTF-16LE.
 * `String.format(fmt, args...)` → `jlang::String::format(fmt, args...)`
@@ -480,6 +491,17 @@ They also expose STL-style iteration.
   `{ JFINALLY {...}; try { body } catch (...) { handler } }`.
   A finally block must not throw.
 * `throws` clauses are dropped.
+* **Rethrow** with `throw;` (or `e.rethrow()`). `throw e;` slices the exception to the
+  static type of `e` and loses the subclass.
+* **Wrapping a cause:** `new X(msg, cause)` → `X(msg, cause)` and `new X(cause)` →
+  `X(cause)`. When the cause has exactly the type being constructed, write `X(&e)`;
+  `X(e)` would be a copy, not a wrap.
+* Every exception class body contains `JLANG_THROWABLE(ClassName)` (the generator emits
+  it for codebase exceptions). Extra fields of an exception that hold `String`s or object
+  pointers must be `jlang::detail::Pinned<T>`, because a thrown exception lives in memory
+  the collector doesn't scan.
+* `INT_MIN / -1` faults on x86 (Java gives `INT_MIN`); where that can happen use
+  `jlang::idiv`/`jlang::irem`, which return Java's exact results.
 
 ## 13. Reflection, annotations, scripts, configuration, JAXB
 
@@ -517,6 +539,19 @@ Nothing uses runtime reflection. The generator emits the metadata instead:
 Methods: `debug info warn error fatal (msg[, throwable])`, `isDebugEnabled()`,
 `isInfoEnabled()`. Configured from `config/log4j.xml` (console and file appenders,
 logger levels).
+
+* Passing a throwable as the message (`log.error(e)`) logs its message and the throwable,
+  as the commons `ThrowableAsMessageLogger` did.
+* Filters read the message with `jlang::unbox<jlang::String>(event->getMessage())`.
+* `LoggingService`'s reflection hack on log4j's `Hierarchy` becomes
+  `jlang::log4j::LogManager::setDefaultLoggerFactory(new ThrowableAsMessageAwareFactory())`.
+* `DOMConfigurator.configure(url)` → `jlang::log4j::DOMConfigurator::configure("config/log4j.xml")`
+  (a path).
+* Custom appenders/filters/layouts (commons `TruncateToZipFileAppender`, the filters)
+  register their class names and `<param>` setters with
+  `jlang::log4j::registerAppenderFactory`/`registerFilterFactory`/`registerPropertySetter`
+  in their `.cpp` (see the comment at the top of `jlang/Log.h`).
+* Shutdown hooks run one after another on the thread that calls `System::exit`.
 
 ## 15. Translation checklist (per file)
 
