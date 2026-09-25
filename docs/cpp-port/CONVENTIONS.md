@@ -33,7 +33,8 @@ The port is done in three layers:
   `-fnon-call-exceptions` (null dereferences become `jlang::NullPointerException`),
   `-pthread`.
 * Dependencies: Boehm GC (`bdw-gc`, threads enabled), MariaDB Connector/C
-  (`libmariadb`), pugixml, OpenSSL (`libcrypto`), zlib. Only `jlang/src/*.cpp`
+  (`libmariadb`), pugixml, OpenSSL (`libcrypto`), zlib, PCRE2 (`libpcre2-8`, for
+  java.util.regex). Only `jlang/src/*.cpp`
   includes their headers. Translated code includes `jlang` headers only.
 * CMake + Ninja. Root `CMakeLists.txt`; one library target per module (`jlang`,
   `commons`, `geoengine`) and one executable per server (`loginserver`, `chatserver`,
@@ -501,8 +502,12 @@ Nothing uses runtime reflection. The generator emits the metadata instead:
 * **JAXB.** For every JAXB-bound class the generator emits
   `void _jaxbUnmarshal(jlang::xml::Element* e, jlang::xml::JaxbContext* ctx)`
   (attributes, elements, lists, `@XmlElements` polymorphism, `@XmlIDREF`, enum values,
-  defaults, and `afterUnmarshal` callbacks). `jlang::xml::JAXB::unmarshal<T>(file)`
-  loads a document. Hand-written code never parses XML for JAXB classes.
+  defaults, and `afterUnmarshal` callbacks), plus `_jaxbMarshal` for marshalled classes.
+  The exact generated-member contract is in `docs/cpp-port/JAXB.md`. Call sites keep the
+  Java shape: `JAXBContext.newInstance(StaticData.class)` →
+  `jlang::xml::JAXBContext::newInstance<StaticData>()`, and a cast of the unmarshal result
+  `(NpcData) un.unmarshal(f)` → `un->unmarshal<NpcData>(f)`. Hand-written code never
+  parses XML for JAXB classes.
 
 ## 14. Logging
 

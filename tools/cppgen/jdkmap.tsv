@@ -244,6 +244,7 @@ java.io.IOException	jlang::IOException*	core	exception
 java.io.FileNotFoundException	jlang::FileNotFoundException*	core	exception
 java.io.UnsupportedEncodingException	jlang::UnsupportedEncodingException*	core	exception
 java.io.EOFException	jlang::EOFException*	core	exception
+javax.activation.UnsupportedDataTypeException	jlang::IOException*	core	exception	geoEngine Node.clone() only
 # ---------------------------------------------------------------- java.nio / java.net
 java.nio.Buffer	jlang::ByteBuffer*	jlang/Nio.h	ptr
 java.nio.ByteBuffer	jlang::ByteBuffer*	jlang/Nio.h	ptr
@@ -346,7 +347,7 @@ java.awt.geom.RectangularShape	jlang::Rectangle*	jlang/Geom.h	ptr
 # ---------------------------------------------------------------- xml
 javax.xml.bind.JAXBContext	jlang::xml::JAXBContext*	jlang/Xml.h	ptr	JAXBContext.newInstance(Foo.class) -> jlang::xml::JAXBContext::newInstance<Foo>()
 javax.xml.bind.Unmarshaller	jlang::xml::Unmarshaller*	jlang/Xml.h	ptr	uses generated _jaxbUnmarshal
-javax.xml.bind.Marshaller	jlang::xml::Marshaller*	jlang/Xml.h	ptr	only SchemaGen/tools; minimal
+javax.xml.bind.Marshaller	jlang::xml::Marshaller*	jlang/Xml.h	ptr	used by SaveSpawnData/Ring (generated _jaxbMarshal members); see docs/cpp-port/JAXB.md
 javax.xml.bind.JAXBException	jlang::xml::JAXBException*	jlang/Xml.h	exception
 javax.xml.bind.SchemaOutputResolver	jlang::Object*	core	unsupported	SchemaGen tool: drop
 javax.xml.bind.annotation.adapters.XmlAdapter	jlang::xml::XmlAdapter*	jlang/Xml.h	ptr	erased: unmarshal(Object*)->Object*
@@ -369,11 +370,16 @@ javax.xml.stream.XMLEventReader	jlang::xml::XMLEventReader*	jlang/Xml.h	ptr
 javax.xml.stream.XMLEventWriter	jlang::xml::XMLEventWriter*	jlang/Xml.h	ptr
 javax.xml.stream.XMLStreamException	jlang::xml::XMLStreamException*	jlang/Xml.h	exception
 javax.xml.stream.events.XMLEvent	jlang::xml::XMLEvent*	jlang/Xml.h	ptr
-javax.xml.stream.events.StartElement	jlang::xml::XMLEvent*	jlang/Xml.h	ptr	one event class exposes asStartElement() etc. returning itself
-javax.xml.stream.events.EndElement	jlang::xml::XMLEvent*	jlang/Xml.h	ptr
-javax.xml.stream.events.Characters	jlang::xml::XMLEvent*	jlang/Xml.h	ptr
-javax.xml.stream.events.Comment	jlang::xml::XMLEvent*	jlang/Xml.h	ptr
+javax.xml.stream.events.StartElement	jlang::xml::StartElement*	jlang/Xml.h	ptr
+javax.xml.stream.events.EndElement	jlang::xml::EndElement*	jlang/Xml.h	ptr
+javax.xml.stream.events.Characters	jlang::xml::Characters*	jlang/Xml.h	ptr
+javax.xml.stream.events.Comment	jlang::xml::Comment*	jlang/Xml.h	ptr	must be its own class: XmlMerger tests 'instanceof Comment'
 javax.xml.stream.events.Attribute	jlang::xml::XMLAttribute*	jlang/Xml.h	ptr
+javax.xml.stream.Location	jlang::xml::Location*	jlang/Xml.h	ptr
+javax.xml.stream.XMLStreamConstants	jlang::xml::XMLStreamConstants	jlang/Xml.h	static
+javax.xml.bind.UnmarshalException	jlang::xml::UnmarshalException*	jlang/Xml.h	exception
+javax.xml.bind.MarshalException	jlang::xml::MarshalException*	jlang/Xml.h	exception
+javax.xml.bind.PropertyException	jlang::xml::PropertyException*	jlang/Xml.h	exception
 javax.xml.transform.Result	jlang::Object*	core	unsupported
 javax.xml.transform.stream.StreamResult	jlang::Object*	core	unsupported
 javax.tools.JavaCompiler	jlang::Object*	core	unsupported	runtime script compilation: replaced by the class registry
@@ -418,6 +424,11 @@ org.jboss.netty.bootstrap.ServerBootstrap	jlang::netty::ServerBootstrap*	jlang/N
 org.jboss.netty.buffer.ChannelBuffer	jlang::netty::ChannelBuffer*	jlang/Netty.h	ptr
 org.jboss.netty.buffer.ChannelBuffers	jlang::netty::ChannelBuffers	jlang/Netty.h	static
 org.jboss.netty.buffer.HeapChannelBufferFactory	jlang::netty::HeapChannelBufferFactory*	jlang/Netty.h	ptr
+org.jboss.netty.buffer.ChannelBufferFactory	jlang::netty::ChannelBufferFactory*	jlang/Netty.h	iface
+org.jboss.netty.channel.ChannelEvent	jlang::netty::ChannelEvent*	jlang/Netty.h	iface
+org.jboss.netty.channel.ChannelConfig	jlang::netty::ChannelConfig*	jlang/Netty.h	iface
+org.jboss.netty.channel.ChannelSink	jlang::netty::ChannelSink*	jlang/Netty.h	iface
+org.jboss.netty.handler.codec.frame.FrameDecoder	jlang::netty::FrameDecoder*	jlang/Netty.h	ptr
 org.jboss.netty.channel.Channel	jlang::netty::Channel*	jlang/Netty.h	ptr
 org.jboss.netty.channel.ChannelFactory	jlang::netty::ChannelFactory*	jlang/Netty.h	ptr
 org.jboss.netty.channel.ChannelFuture	jlang::netty::ChannelFuture*	jlang/Netty.h	ptr
