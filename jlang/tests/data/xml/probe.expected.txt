@@ -1,0 +1,37 @@
+setUid [1] npc#1
+after GearList parent=Npc items=null
+adapter.unmarshal items=null
+after Npc 1 #1 parent=Root gear.items=null
+setUid [2] npc#2
+after Npc 2 #2 parent=Root gear.items=nogear
+after Item [100] sword #1
+after Item [101] shield #2
+after Ref first=shield second=null third=Title any=null
+after Item [102] late #3
+after Item [101] dup #4
+after Set_ S1 #1 parent=Mods
+after Add A1 #2 parent=Mods
+after Set_ S2 #3 parent=Mods
+after Add A2 #4 parent=Mods
+after Mods size=4
+setUid [3] npc#3
+after Npc 3 #3 parent=Root gear.items=nogear
+after Root parent=null ref.first=shield ref.any=null gear.items=null
+----
+npc #1 id=[1] aggro=15 arange=3 rate=0 height=1.0 flag=true kind=null n=42 ids=null skills=[5, 6] classes=[B] gear=[sword#1 dup#4 ]
+npc #2 id=[2] aggro=5 arange=0 rate=0 height=2.5 flag=false kind=C n=7 ids=[3, 4, 5] skills=[7] classes=[]
+npc #3 id=[3] aggro=1 arange=0 rate=0 height=1.0 flag=true kind=null n=null ids=null skills=null classes=null
+item [100] sword #1
+item [101] shield #2
+item [102] late #3
+item [101] dup #4
+titles=1
+ref first=shield#2 second=late third=Title any=Title sword late 
+mods=Add:A1#2 Set_:S2#3 Set_:S1#1 Add:A2#4 TreeSet
+group type=C value=[a,b]
+group type=null value=[  x  ]
+pre=[z, w]
+arr=[1, 2]
+text=[a & b<c>d]
+text=[   ]
+text=[]

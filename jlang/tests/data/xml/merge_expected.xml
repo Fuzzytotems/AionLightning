@@ -1,0 +1,6 @@
+<?xml version="1.0"?><!--
+This file is machine-generated. DO NOT MODIFY IT!
+--><ae_static_data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="static_data.xsd"><a_data xsi:noNamespaceSchemaLocation="a.xsd" version="2"><item race="ELYOS" level="3" name="Balaur (Infiltration1)
+21209 - 21210" id="1"></item><item price="100" name="multi line attr" id="2"></item><item race="ASMODIANS" level="10" count="5" name="Kaisinel's" id="3"></item><msg>
+		&lt;p&gt;Greetings&amp;hellip; child&lt;/p&gt;
+		</msg><space></space><t>&lt;&gt;</t><u>&lt;&gt;AB</u><mixed>ab<?pi data?>c</mixed><zone a11="11" a10="10" a13="13" a12="12" a14="14" a1="1" a2="2" a3="3" a4="4" a5="5" a6="6" a7="7" a8="8" name="z" a9="9"></zone><empty></empty><é attr="ü">ß</é></a_data><b_data><b id="1"></b><b id="2">text</b></b_data><c_data><c v="1"></c><c v="2"></c></c_data><n_data><n v="in new dir"></n></n_data><text_data zz="1" aa="2" race="ELYOS" level="3" kind="t&quot;q">x &amp; y &lt; z &gt; "q" 'a' été</text_data><empty_root></empty_root></ae_static_data>

@@ -1,0 +1,113 @@
+counter=56
+spawn time=null anchor=ELTNEN_AM handler=RIFT interval=0 pool=1 npcid=700137 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=156.6 y=2943.81 x=225.58 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_BM handler=RIFT interval=0 pool=1 npcid=700137 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=265.3 y=1881.09 x=768.29 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_CM handler=RIFT interval=0 pool=1 npcid=700137 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=345.2 y=1724.06 x=1639.89 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_DM handler=RIFT interval=0 pool=1 npcid=700137 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=316.9384 y=61.013 x=1024.32 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_EM handler=RIFT interval=0 pool=1 npcid=700137 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=363.7 y=485.71 x=1532.46 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_FM handler=RIFT interval=0 pool=1 npcid=700137 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=271.63 y=2604.57 x=2210.18 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_GM handler=RIFT interval=0 pool=1 npcid=700137 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=435.3 y=557.24 x=2176.14 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_AS handler=RIFT interval=0 pool=1 npcid=700138 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=430.0 y=1910.28 x=563.96 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_BS handler=RIFT interval=0 pool=1 npcid=700138 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=226.0 y=1277.33 x=1462.3 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_CS handler=RIFT interval=0 pool=1 npcid=700138 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=526.0 y=187.57 x=633.13 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_DS handler=RIFT interval=0 pool=1 npcid=700138 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=48.0 y=1275.31 x=1821.12 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_ES handler=RIFT interval=0 pool=1 npcid=700138 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=358.77148 y=2757.688 x=1559.136 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_FS handler=RIFT interval=0 pool=1 npcid=700138 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=95.959 y=2235.682 x=2613.383 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_GS handler=RIFT interval=0 pool=1 npcid=700138 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=362.9 y=879.0 x=3020.0 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_AM handler=RIFT interval=0 pool=1 npcid=700137 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=387.0 y=509.58 x=2564.0 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_BM handler=RIFT interval=0 pool=1 npcid=700137 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=112.788124 y=1437.922 x=1300.266 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_CM handler=RIFT interval=0 pool=1 npcid=700137 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=143.1 y=560.14 x=533.53 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_DM handler=RIFT interval=0 pool=1 npcid=700137 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=105.33188 y=1821.228 x=649.655 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_EM handler=RIFT interval=0 pool=1 npcid=700137 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=126.140175 y=2524.7415 x=722.99475 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_FM handler=RIFT interval=0 pool=1 npcid=700137 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=128.5 y=555.31 x=503.393 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_GM handler=RIFT interval=0 pool=1 npcid=700137 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=142.5325 y=2078.44 x=2742.7 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_AS handler=RIFT interval=0 pool=1 npcid=700138 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=297.60693 y=1064.9808 x=127.16362 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_BS handler=RIFT interval=0 pool=1 npcid=700138 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=348.88293 y=315.97458 x=1068.4355 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_CS handler=RIFT interval=0 pool=1 npcid=700138 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=277.61957 y=2056.8694 x=1044.3553 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_DS handler=RIFT interval=0 pool=1 npcid=700138 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=387.24017 y=456.098 x=2125.49 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_ES handler=RIFT interval=0 pool=1 npcid=700138 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=509.71457 y=564.567 x=2826.6746 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_FS handler=RIFT interval=0 pool=1 npcid=700138 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=596.10583 y=2343.179 x=2725.693 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_GS handler=RIFT interval=0 pool=1 npcid=700138 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=589.0837 y=1900.656 x=1744.005 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_AM handler=RIFT interval=0 pool=1 npcid=700137 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=440.06 y=2308.07 x=453.87 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_BM handler=RIFT interval=0 pool=1 npcid=700137 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=330.0 y=912.61 x=771.07 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_CM handler=RIFT interval=0 pool=1 npcid=700137 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=438.0 y=488.45 x=227.9 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_DM handler=RIFT interval=0 pool=1 npcid=700137 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=165.0 y=1462.6 x=1668.38 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_EM handler=RIFT interval=0 pool=1 npcid=700137 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=155.0 y=1130.13 x=1527.5 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_FM handler=RIFT interval=0 pool=1 npcid=700137 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=115.1 y=2336.73 x=2356.19 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=MORHEIM_GM handler=RIFT interval=0 pool=1 npcid=700137 map=220020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=266.0 y=600.0 x=2450.0 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_AS handler=RIFT interval=0 pool=1 npcid=700138 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=244.6082 y=2741.9104 x=730.1719 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_BS handler=RIFT interval=0 pool=1 npcid=700138 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=287.0 y=1232.64 x=440.47 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_CS handler=RIFT interval=0 pool=1 npcid=700138 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=289.0 y=2442.45 x=1453.57 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_DS handler=RIFT interval=0 pool=1 npcid=700138 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=111.8 y=351.12 x=116.98 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_ES handler=RIFT interval=0 pool=1 npcid=700138 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=367.17932 y=367.17282 x=1432.9285 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_FS handler=RIFT interval=0 pool=1 npcid=700138 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=274.15503 y=2608.3738 x=2206.623 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=ELTNEN_GS handler=RIFT interval=0 pool=1 npcid=700138 map=210020000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=435.3 y=557.24 x=2176.14 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_AM handler=RIFT interval=0 pool=1 npcid=700137 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=240.881 y=150.91 x=233.323 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_BM handler=RIFT interval=0 pool=1 npcid=700137 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=275.7 y=735.73 x=1367.26 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_CM handler=RIFT interval=0 pool=1 npcid=700137 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=246.01 y=2245.34 x=719.65 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_DM handler=RIFT interval=0 pool=1 npcid=700137 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=382.4038 y=262.812 x=2069.539 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_EM handler=RIFT interval=0 pool=1 npcid=700137 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=514.5 y=618.865 x=2842.682 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_FM handler=RIFT interval=0 pool=1 npcid=700137 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=646.98 y=2561.897 x=2812.163 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=BELUSLAN_GM handler=RIFT interval=0 pool=1 npcid=700137 map=220040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=582.12 y=2053.25 x=1596.497 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_AS handler=RIFT interval=0 pool=1 npcid=700138 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=228.0 y=434.266 x=2132.444 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_BS handler=RIFT interval=0 pool=1 npcid=700138 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=124.30182 y=1833.3224 x=1955.4146 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_CS handler=RIFT interval=0 pool=1 npcid=700138 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=119.970474 y=903.9242 x=881.9689 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_DS handler=RIFT interval=0 pool=1 npcid=700138 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=124.491196 y=2194.447 x=861.482 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_ES handler=RIFT interval=0 pool=1 npcid=700138 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=103.40212 y=2658.449 x=291.566 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_FS handler=RIFT interval=0 pool=1 npcid=700138 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=133.875 y=514.962 x=362.175 staticid=0 fly=0 spawnId=0
+spawn time=null anchor=HEIRON_GS handler=RIFT interval=0 pool=1 npcid=700138 map=210040000 rw=0 dr=0 da=0 li=0 boss=false objects=1
+  object rw=0 w=0 h=0 z=148.36946 y=2577.753 x=1905.486 staticid=0 fly=0 spawnId=0

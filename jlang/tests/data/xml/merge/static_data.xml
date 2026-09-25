@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ae_static_data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="static_data.xsd">
+	<!--
+		Synthetic tree for the XmlMerger comparison test (jlang/tests/test_xml_stax.cpp).
+	-->
+	<import file="a.xml"/>
+	<b_data>
+		<import file="bdir" skipRoot="true"/>
+	</b_data>
+	<c_data>
+		<import file="cdir" skipRoot="true" recursiveImport="false"/>
+	</c_data>
+	<n_data><import file="ndir" skipRoot="true"/></n_data>
+	<text_data kind="t&quot;q" zz="1" aa="2" level="3" race="ELYOS">x &amp; y &lt; z &gt; "q" 'a' &#233;t&#xE9;</text_data>
+	<import file="empty_root.xml"/>
+</ae_static_data>

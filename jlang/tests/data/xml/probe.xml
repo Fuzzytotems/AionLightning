@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JAXB behavior probe for jlang/tests/test_xml_jaxb.cpp (expected results: probe.expected.txt,
+     produced by java/JaxbFixtures.java with JAXB RI 2.3.9). -->
+<root unknownRootAttr="1">
+	<npc npc_id=" 1 " srange="15" arange="3" flag="1" kind=" B " n=" 4 2 " unknownAttr="x">
+		<equipment><item>100</item><item> 101</item><item>nope</item><item>101</item></equipment>
+		<unknownChild a="1"><npc npc_id="999"/></unknownChild>
+		<skill>5</skill><skill> 6 </skill>
+		<classes>A  C1 Z</classes>
+		<classes>B</classes>
+	</npc>
+	<npc npc_id="2" srange="5" kind="C1" flag="yes" n="7" ids="3 4  5" height="2.5">
+		<skill>7</skill>
+		<classes/>
+	</npc>
+	<item id="100" name="sword"/>
+	<item id="101" name="shield"/>
+	<title id="1"/>
+	<ref first="101" second="102" third="1"><r>1</r><r>100</r><r> 100 </r><r>zz</r><r>102</r></ref>
+	<item id=" 102 " name="late"/>
+	<item id="101" name="dup"/>
+	<mods><set name="S1" priority="2"/><add name="A1" priority="1"/><bogus/><set name="S2" priority="1"/><add name="A2" priority="2"/></mods>
+	<group type="C1">a,b</group>
+	<group type="nope">  x  </group>
+	<pre>z</pre>
+	<npc npc_id="3" srange="1"/>
+	<pre>w</pre>
+	<arr>1</arr><arr> 2 </arr>
+	<text>a &amp; b<![CDATA[<c>]]><!-- skipped -->d</text>
+	<text>   </text>
+	<text/>
+</root>

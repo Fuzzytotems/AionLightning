@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- header comment of a.xml -->
+<a_data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="a.xsd" version="2">
+	<item level="3" race="ELYOS" id="1" name="Balaur (Infiltration1)&#xD;&#xA;21209 - 21210"/>
+	<item id="2" name="multi
+line	attr" price="100"/>
+	<item race="ASMODIANS" level="10" count="5" id="3" name="Kaisinel's"/>
+	<msg><![CDATA[
+		<p>Greetings&hellip; child</p>
+		]]>
+		</msg>
+	<space><![CDATA[   ]]></space>
+	<t>&lt; &gt;</t>
+	<u>&lt;&gt;&#65;&#x42;</u>
+	<mixed>a<!-- inner -->b<?pi data?>c</mixed>
+	<zone name="z" a1="1" a2="2" a3="3" a4="4" a5="5" a6="6" a7="7" a8="8" a9="9" a10="10" a11="11" a12="12" a13="13" a14="14"/>
+	<empty></empty>
+	<é attr="ü">ß</é>
+</a_data>
