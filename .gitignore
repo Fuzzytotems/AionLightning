@@ -1,0 +1,4 @@
+# C++ port build outputs
+/build/
+/build-*/
+/tools/cppgen/build/

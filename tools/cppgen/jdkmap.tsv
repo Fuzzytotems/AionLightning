@@ -1,0 +1,449 @@
+# Java (JDK / third-party) type -> C++ mapping. Consumed by tools/cppgen and implemented by jlang.
+# Columns: javaFQN <TAB> cppType <TAB> header <TAB> kind <TAB> notes
+#   cppType: C++ type used in declarations. $0,$1 = mapped type arguments (full C++ types,
+#            e.g. "Player*", "int32_t"). A missing type argument (raw type / wildcard ?) maps to jlang::Object*.
+#   header:  jlang header that declares it ("core" = <jlang/jlang.h>, always included by generated headers).
+#   kind:    value     - C++ value type (no pointer)
+#            ptr       - GC object held by pointer (class; may be used as base class)
+#            iface     - interface (inherit with `public virtual`)
+#            static    - utility class with only static members (never a declaration type)
+#            exception - exception class (ptr when stored, thrown by value)
+#            marker    - marker interface: dropped from base lists
+#            unsupported - JVM-only facility; code using it must be rewritten by hand (generator emits jlang::Object* and a comment)
+#            codebase  - maps to a class ported from this repository
+# ---------------------------------------------------------------- java.lang
+java.lang.Object	jlang::Object*	core	ptr
+java.lang.String	jlang::String	core	value
+java.lang.CharSequence	jlang::String	core	value
+java.lang.StringBuilder	jlang::StringBuilder*	core	ptr
+java.lang.StringBuffer	jlang::StringBuilder*	core	ptr
+java.lang.AbstractStringBuilder	jlang::StringBuilder*	core	ptr
+java.lang.Appendable	jlang::StringBuilder*	core	ptr
+javolution.text.TextBuilder	jlang::StringBuilder*	core	ptr	TextBuilder.newInstance() -> new jlang::StringBuilder(); recycle() -> no-op
+java.lang.Number	jlang::Number*	core	ptr	boxed-number base
+java.lang.Integer	jlang::Integer*	core	ptr	boxed; see CONVENTIONS §4 for primitive/optional mapping
+java.lang.Long	jlang::Long*	core	ptr	boxed
+java.lang.Short	jlang::Short*	core	ptr	boxed
+java.lang.Byte	jlang::Byte*	core	ptr	boxed
+java.lang.Float	jlang::Float*	core	ptr	boxed
+java.lang.Double	jlang::Double*	core	ptr	boxed
+java.lang.Boolean	jlang::Boolean*	core	ptr	boxed
+java.lang.Character	jlang::Character*	core	ptr	boxed
+java.lang.Class	jlang::Class*	core	ptr
+java.lang.Enum	jlang::Object*	core	ptr	only as Enum<?> parameter types; enums themselves are value classes
+java.lang.Math	jlang::Math	core	static
+java.lang.StrictMath	jlang::Math	core	static
+java.lang.System	jlang::System	core	static
+java.lang.Runtime	jlang::Runtime*	core	ptr
+java.lang.Thread	jlang::Thread*	jlang/Thread.h	ptr
+java.lang.ThreadGroup	jlang::ThreadGroup*	jlang/Thread.h	ptr
+java.lang.Thread.UncaughtExceptionHandler	jlang::Thread_UncaughtExceptionHandler*	jlang/Thread.h	iface
+java.lang.Runnable	jlang::Runnable*	core	iface
+java.lang.Iterable	jlang::Iterable<$0>*	core	iface
+java.lang.Comparable	jlang::Comparable<$0>*	core	iface
+java.lang.Cloneable	-	core	marker
+java.lang.StackTraceElement	jlang::StackTraceElement*	core	ptr
+java.lang.Throwable	jlang::Throwable*	core	exception
+java.lang.Exception	jlang::Exception*	core	exception
+java.lang.Error	jlang::Error*	core	exception
+java.lang.RuntimeException	jlang::RuntimeException*	core	exception
+java.lang.IllegalArgumentException	jlang::IllegalArgumentException*	core	exception
+java.lang.IllegalStateException	jlang::IllegalStateException*	core	exception
+java.lang.NullPointerException	jlang::NullPointerException*	core	exception
+java.lang.ClassCastException	jlang::ClassCastException*	core	exception
+java.lang.ArithmeticException	jlang::ArithmeticException*	core	exception
+java.lang.IndexOutOfBoundsException	jlang::IndexOutOfBoundsException*	core	exception
+java.lang.ArrayIndexOutOfBoundsException	jlang::ArrayIndexOutOfBoundsException*	core	exception
+java.lang.StringIndexOutOfBoundsException	jlang::StringIndexOutOfBoundsException*	core	exception
+java.lang.NegativeArraySizeException	jlang::NegativeArraySizeException*	core	exception
+java.lang.UnsupportedOperationException	jlang::UnsupportedOperationException*	core	exception
+java.lang.NumberFormatException	jlang::NumberFormatException*	core	exception
+java.lang.InterruptedException	jlang::InterruptedException*	core	exception
+java.lang.CloneNotSupportedException	jlang::CloneNotSupportedException*	core	exception
+java.lang.ClassNotFoundException	jlang::ClassNotFoundException*	core	exception
+java.lang.InstantiationException	jlang::InstantiationException*	core	exception
+java.lang.IllegalAccessException	jlang::IllegalAccessException*	core	exception
+java.lang.NoSuchFieldException	jlang::NoSuchFieldException*	core	exception
+java.lang.NoSuchMethodException	jlang::NoSuchMethodException*	core	exception
+java.lang.SecurityException	jlang::SecurityException*	core	exception
+java.lang.InternalError	jlang::InternalError*	core	exception
+java.lang.OutOfMemoryError	jlang::OutOfMemoryError*	core	exception
+java.lang.StackOverflowError	jlang::StackOverflowError*	core	exception
+java.lang.AbstractMethodError	jlang::AbstractMethodError*	core	exception
+java.lang.AssertionError	jlang::AssertionError*	core	exception
+java.lang.ClassLoader	jlang::Object*	core	unsupported	script class loading; rewrite with the class registry
+java.lang.annotation.Annotation	-	core	marker	annotations are generator metadata
+java.lang.ref.Reference	jlang::Reference<$0>*	jlang/Ref.h	ptr
+java.lang.ref.SoftReference	jlang::SoftReference<$0>*	jlang/Ref.h	ptr	soft = weak that survives while memory is available (implemented as strong until cleared by jlang::Runtime pressure hook)
+java.lang.ref.WeakReference	jlang::WeakReference<$0>*	jlang/Ref.h	ptr	Boehm disappearing link
+java.lang.ref.ReferenceQueue	jlang::ReferenceQueue<$0>*	jlang/Ref.h	ptr
+java.lang.reflect.Field	jlang::Object*	core	unsupported	use generated metadata (config/JAXB binders, class registry)
+java.lang.reflect.Method	jlang::Object*	core	unsupported
+java.lang.reflect.Modifier	jlang::Object*	core	unsupported	Modifier.isAbstract(c.getModifiers()) -> c->isAbstract()
+java.lang.reflect.Array	jlang::Object*	core	unsupported
+java.lang.reflect.AccessibleObject	jlang::Object*	core	unsupported
+java.lang.reflect.InvocationTargetException	jlang::Exception*	core	exception
+java.lang.management.ManagementFactory	jlang::Object*	core	unsupported	DeadLockDetector: rewrite
+java.lang.management.ThreadMXBean	jlang::Object*	core	unsupported
+java.lang.management.ThreadInfo	jlang::Object*	core	unsupported
+java.lang.management.LockInfo	jlang::Object*	core	unsupported
+java.lang.management.MonitorInfo	jlang::Object*	core	unsupported
+java.lang.management.RuntimeMXBean	jlang::Object*	core	unsupported
+# ---------------------------------------------------------------- java.util collections
+java.util.Collection	jlang::List<$0>*	core	ptr
+java.util.AbstractCollection	jlang::List<$0>*	core	ptr
+java.util.List	jlang::List<$0>*	core	ptr
+java.util.ArrayList	jlang::List<$0>*	core	ptr
+java.util.LinkedList	jlang::List<$0>*	core	ptr	if used as Queue/Deque (poll/offer/addLast...) the declared type decides; List has addFirst/addLast/removeFirst/removeLast/getFirst/getLast/poll/peek too
+java.util.Vector	jlang::List<$0>*	core	ptr
+java.util.RandomAccess	-	core	marker
+java.util.concurrent.CopyOnWriteArrayList	jlang::List<$0>*	core	ptr	construct with ->synchronized_()
+javolution.util.FastList	jlang::List<$0>*	core	ptr
+javolution.util.FastCollection	jlang::List<$0>*	core	ptr
+gnu.trove.TIntArrayList	jlang::TIntArrayList*	core	ptr	List<int32_t> subclass with Trove names (toNativeArray...)
+java.util.Set	jlang::Set<$0>*	core	ptr
+java.util.HashSet	jlang::Set<$0>*	core	ptr
+java.util.LinkedHashSet	jlang::Set<$0>*	core	ptr
+javolution.util.FastSet	jlang::Set<$0>*	core	ptr
+gnu.trove.THashSet	jlang::Set<$0>*	core	ptr
+java.util.SortedSet	jlang::TreeSet<$0>*	core	ptr
+java.util.NavigableSet	jlang::TreeSet<$0>*	core	ptr
+java.util.TreeSet	jlang::TreeSet<$0>*	core	ptr
+java.util.EnumSet	jlang::TreeSet<$0>*	core	ptr	EnumSet.allOf(E.class) -> jlang::TreeSet<E>::allOf(E::values()), noneOf -> new jlang::TreeSet<E>()
+java.util.Map	jlang::Map<$0,$1>*	core	ptr
+java.util.HashMap	jlang::Map<$0,$1>*	core	ptr
+java.util.LinkedHashMap	jlang::Map<$0,$1>*	core	ptr	jlang::Map is insertion ordered
+java.util.Hashtable	jlang::Map<$0,$1>*	core	ptr	construct with ->synchronized_()
+java.util.IdentityHashMap	jlang::Map<$0,$1>*	core	ptr
+java.util.WeakHashMap	jlang::Map<$0,$1>*	core	ptr	strong keys (acceptable)
+javolution.util.FastMap	jlang::Map<$0,$1>*	core	ptr	new FastMap().shared() -> (new jlang::Map<K,V>())->shared()
+gnu.trove.THashMap	jlang::Map<$0,$1>*	core	ptr
+java.util.concurrent.ConcurrentHashMap	jlang::ConcurrentHashMap<$0,$1>*	core	ptr	subclass of jlang::Map with the lock enabled
+java.util.concurrent.ConcurrentMap	jlang::Map<$0,$1>*	core	ptr
+java.util.SortedMap	jlang::TreeMap<$0,$1>*	core	ptr
+java.util.NavigableMap	jlang::TreeMap<$0,$1>*	core	ptr
+java.util.TreeMap	jlang::TreeMap<$0,$1>*	core	ptr
+java.util.EnumMap	jlang::TreeMap<$0,$1>*	core	ptr	new EnumMap<>(E.class) -> new jlang::TreeMap<E,V>()
+java.util.Map.Entry	jlang::Entry<$0,$1>	core	value
+gnu.trove.TIntObjectHashMap	jlang::TIntObjectHashMap<$0>*	core	ptr	Map<int32_t,V> subclass with Trove names
+gnu.trove.TIntIntHashMap	jlang::TIntIntHashMap*	core	ptr	Map<int32_t,int32_t> subclass with Trove names
+gnu.trove.TIntObjectProcedure	jlang::TIntObjectProcedure<$0>*	core	iface	bool execute(int32_t, V)
+gnu.trove.TIntObjectIterator	jlang::TIntObjectIterator<$0>*	core	ptr
+java.util.Queue	jlang::Deque<$0>*	core	ptr
+java.util.Deque	jlang::Deque<$0>*	core	ptr
+java.util.ArrayDeque	jlang::Deque<$0>*	core	ptr
+java.util.concurrent.ConcurrentLinkedQueue	jlang::ConcurrentLinkedQueue<$0>*	core	ptr	Deque subclass with the lock enabled
+java.util.concurrent.BlockingQueue	jlang::BlockingQueue<$0>*	jlang/Thread.h	ptr
+java.util.concurrent.LinkedBlockingQueue	jlang::LinkedBlockingQueue<$0>*	jlang/Thread.h	ptr
+java.util.concurrent.ArrayBlockingQueue	jlang::ArrayBlockingQueue<$0>*	jlang/Thread.h	ptr
+java.util.concurrent.SynchronousQueue	jlang::SynchronousQueue<$0>*	jlang/Thread.h	ptr
+java.util.concurrent.PriorityBlockingQueue	jlang::PriorityBlockingQueue<$0>*	jlang/Thread.h	ptr	may be subclassed (DesireQueue)
+java.util.PriorityQueue	jlang::PriorityQueue<$0>*	core	ptr
+java.util.Iterator	jlang::Iterator<$0>*	core	ptr
+java.util.ListIterator	jlang::Iterator<$0>*	core	ptr
+java.util.Enumeration	jlang::Iterator<$0>*	core	ptr	hasMoreElements/nextElement also provided
+java.util.Collections	jlang::Collections	core	static
+java.util.Arrays	jlang::Arrays	core	static
+java.util.Comparator	jlang::Comparator<$0>*	core	iface
+java.util.BitSet	jlang::BitSet*	core	ptr
+java.util.NoSuchElementException	jlang::NoSuchElementException*	core	exception
+java.util.ConcurrentModificationException	jlang::ConcurrentModificationException*	core	exception
+java.util.Random	jlang::Random*	core	ptr	exact java.util.Random algorithms; next(bits) is virtual (MTRandom overrides)
+java.util.Properties	jlang::Properties*	jlang/IO.h	ptr
+java.util.Date	jlang::Date*	jlang/Time.h	ptr
+java.util.Calendar	jlang::Calendar*	jlang/Time.h	ptr
+java.util.GregorianCalendar	jlang::GregorianCalendar*	jlang/Time.h	ptr
+java.util.TimeZone	jlang::TimeZone*	jlang/Time.h	ptr
+java.util.Locale	jlang::Locale*	jlang/Time.h	ptr
+java.util.Timer	jlang::Timer*	jlang/Thread.h	ptr
+java.util.TimerTask	jlang::TimerTask*	jlang/Thread.h	ptr
+java.util.ResourceBundle	jlang::ResourceBundle*	jlang/IO.h	ptr
+java.util.PropertyResourceBundle	jlang::ResourceBundle*	jlang/IO.h	ptr
+java.util.ResourceBundle.Control	jlang::Object*	core	unsupported
+java.util.regex.Pattern	jlang::Pattern*	jlang/Regex.h	ptr
+java.util.regex.Matcher	jlang::Matcher*	jlang/Regex.h	ptr
+java.util.jar.JarFile	jlang::Object*	core	unsupported	Version/Locator: rewrite (build-time version info)
+java.util.jar.JarEntry	jlang::Object*	core	unsupported
+java.util.jar.Manifest	jlang::Object*	core	unsupported
+java.util.jar.Attributes	jlang::Object*	core	unsupported
+java.util.zip.ZipOutputStream	jlang::ZipOutputStream*	jlang/IO.h	ptr
+java.util.zip.ZipEntry	jlang::ZipEntry*	jlang/IO.h	ptr
+java.util.zip.ZipFile	jlang::Object*	core	unsupported
+java.util.zip.CRC32	jlang::CRC32*	jlang/IO.h	ptr
+java.util.logging.Handler	jlang::Object*	core	unsupported	JUL bridge: drop
+java.util.logging.Level	jlang::Object*	core	unsupported
+java.util.logging.LogManager	jlang::Object*	core	unsupported
+java.util.logging.LogRecord	jlang::Object*	core	unsupported
+java.util.logging.Logger	jlang::Object*	core	unsupported
+# ---------------------------------------------------------------- java.util.concurrent
+java.util.concurrent.Callable	jlang::Callable<$0>*	jlang/Thread.h	iface
+java.util.concurrent.Future	jlang::Future*	jlang/Thread.h	iface	not a template (erased); get() returns jlang::Object*
+java.util.concurrent.ScheduledFuture	jlang::ScheduledFuture*	jlang/Thread.h	iface	not a template (erased)
+java.util.concurrent.RunnableFuture	jlang::FutureTask*	jlang/Thread.h	ptr
+java.util.concurrent.FutureTask	jlang::FutureTask*	jlang/Thread.h	ptr	not a template (erased)
+java.util.concurrent.Delayed	jlang::Delayed*	jlang/Thread.h	iface
+java.util.concurrent.Executor	jlang::Executor*	jlang/Thread.h	iface
+java.util.concurrent.ExecutorService	jlang::ExecutorService*	jlang/Thread.h	iface
+java.util.concurrent.ScheduledExecutorService	jlang::ScheduledExecutorService*	jlang/Thread.h	iface
+java.util.concurrent.AbstractExecutorService	jlang::AbstractExecutorService*	jlang/Thread.h	ptr
+java.util.concurrent.ThreadPoolExecutor	jlang::ThreadPoolExecutor*	jlang/Thread.h	ptr
+java.util.concurrent.ScheduledThreadPoolExecutor	jlang::ScheduledThreadPoolExecutor*	jlang/Thread.h	ptr
+java.util.concurrent.Executors	jlang::Executors	jlang/Thread.h	static
+java.util.concurrent.ThreadFactory	jlang::ThreadFactory*	jlang/Thread.h	iface
+java.util.concurrent.RejectedExecutionHandler	jlang::RejectedExecutionHandler*	jlang/Thread.h	iface
+java.util.concurrent.TimeUnit	jlang::TimeUnit	jlang/Thread.h	value	enum value class
+java.util.concurrent.ExecutionException	jlang::ExecutionException*	core	exception
+java.util.concurrent.TimeoutException	jlang::TimeoutException*	core	exception
+java.util.concurrent.RejectedExecutionException	jlang::RejectedExecutionException*	core	exception
+java.util.concurrent.CancellationException	jlang::CancellationException*	core	exception
+java.util.concurrent.CountDownLatch	jlang::CountDownLatch*	jlang/Thread.h	ptr
+java.util.concurrent.atomic.AtomicInteger	jlang::AtomicInteger*	jlang/Thread.h	ptr
+java.util.concurrent.atomic.AtomicLong	jlang::AtomicLong*	jlang/Thread.h	ptr
+java.util.concurrent.atomic.AtomicBoolean	jlang::AtomicBoolean*	jlang/Thread.h	ptr
+java.util.concurrent.atomic.AtomicReference	jlang::AtomicReference<$0>*	jlang/Thread.h	ptr
+java.util.concurrent.locks.Lock	jlang::Lock*	jlang/Thread.h	iface
+java.util.concurrent.locks.ReentrantLock	jlang::ReentrantLock*	jlang/Thread.h	ptr
+java.util.concurrent.locks.ReadWriteLock	jlang::ReentrantReadWriteLock*	jlang/Thread.h	ptr
+java.util.concurrent.locks.ReentrantReadWriteLock	jlang::ReentrantReadWriteLock*	jlang/Thread.h	ptr
+java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock	jlang::Lock*	jlang/Thread.h	iface
+java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock	jlang::Lock*	jlang/Thread.h	iface
+java.util.concurrent.locks.Condition	jlang::Condition*	jlang/Thread.h	ptr
+# ---------------------------------------------------------------- java.io
+java.io.File	jlang::File*	jlang/IO.h	ptr
+java.io.FileFilter	jlang::FileFilter*	jlang/IO.h	iface
+java.io.FilenameFilter	jlang::FilenameFilter*	jlang/IO.h	iface
+java.io.InputStream	jlang::InputStream*	jlang/IO.h	ptr
+java.io.FilterInputStream	jlang::InputStream*	jlang/IO.h	ptr
+java.io.FileInputStream	jlang::FileInputStream*	jlang/IO.h	ptr
+java.io.BufferedInputStream	jlang::BufferedInputStream*	jlang/IO.h	ptr
+java.io.ByteArrayInputStream	jlang::ByteArrayInputStream*	jlang/IO.h	ptr
+java.io.DataInputStream	jlang::DataInputStream*	jlang/IO.h	ptr
+java.io.DataInput	jlang::DataInputStream*	jlang/IO.h	ptr
+java.io.OutputStream	jlang::OutputStream*	jlang/IO.h	ptr
+java.io.FileOutputStream	jlang::FileOutputStream*	jlang/IO.h	ptr
+java.io.BufferedOutputStream	jlang::BufferedOutputStream*	jlang/IO.h	ptr
+java.io.ByteArrayOutputStream	jlang::ByteArrayOutputStream*	jlang/IO.h	ptr
+java.io.DataOutput	jlang::DataOutputStream*	jlang/IO.h	ptr
+java.io.PrintStream	jlang::PrintStream*	jlang/IO.h	ptr	System.out / System.err
+java.io.Reader	jlang::Reader*	jlang/IO.h	ptr
+java.io.InputStreamReader	jlang::InputStreamReader*	jlang/IO.h	ptr
+java.io.FileReader	jlang::FileReader*	jlang/IO.h	ptr
+java.io.BufferedReader	jlang::BufferedReader*	jlang/IO.h	ptr
+java.io.Writer	jlang::Writer*	jlang/IO.h	ptr
+java.io.OutputStreamWriter	jlang::OutputStreamWriter*	jlang/IO.h	ptr
+java.io.FileWriter	jlang::FileWriter*	jlang/IO.h	ptr
+java.io.BufferedWriter	jlang::BufferedWriter*	jlang/IO.h	ptr
+java.io.PrintWriter	jlang::PrintWriter*	jlang/IO.h	ptr
+java.io.Serializable	-	core	marker
+java.io.Externalizable	-	core	marker	writeExternal/readExternal are kept as plain methods, unused
+java.io.ObjectInput	jlang::Object*	core	unsupported
+java.io.ObjectOutput	jlang::Object*	core	unsupported
+java.io.ObjectInputStream	jlang::Object*	core	unsupported
+java.io.ObjectOutputStream	jlang::Object*	core	unsupported
+java.io.IOException	jlang::IOException*	core	exception
+java.io.FileNotFoundException	jlang::FileNotFoundException*	core	exception
+java.io.UnsupportedEncodingException	jlang::UnsupportedEncodingException*	core	exception
+java.io.EOFException	jlang::EOFException*	core	exception
+# ---------------------------------------------------------------- java.nio / java.net
+java.nio.Buffer	jlang::ByteBuffer*	jlang/Nio.h	ptr
+java.nio.ByteBuffer	jlang::ByteBuffer*	jlang/Nio.h	ptr
+java.nio.CharBuffer	jlang::CharBuffer*	jlang/Nio.h	ptr
+java.nio.ByteOrder	jlang::ByteOrder	jlang/Nio.h	value
+java.nio.BufferUnderflowException	jlang::BufferUnderflowException*	core	exception
+java.nio.BufferOverflowException	jlang::BufferOverflowException*	core	exception
+java.nio.charset.Charset	jlang::Charset*	jlang/Nio.h	ptr
+java.nio.channels.Channel	jlang::SelectableChannel*	jlang/Nio.h	ptr
+java.nio.channels.SelectableChannel	jlang::SelectableChannel*	jlang/Nio.h	ptr
+java.nio.channels.spi.AbstractSelectableChannel	jlang::SelectableChannel*	jlang/Nio.h	ptr
+java.nio.channels.spi.AbstractInterruptibleChannel	jlang::SelectableChannel*	jlang/Nio.h	ptr
+java.nio.channels.ServerSocketChannel	jlang::ServerSocketChannel*	jlang/Nio.h	ptr
+java.nio.channels.SocketChannel	jlang::SocketChannel*	jlang/Nio.h	ptr
+java.nio.channels.Selector	jlang::Selector*	jlang/Nio.h	ptr
+java.nio.channels.spi.SelectorProvider	jlang::SelectorProvider*	jlang/Nio.h	ptr
+java.nio.channels.SelectionKey	jlang::SelectionKey*	jlang/Nio.h	ptr
+java.nio.channels.ClosedChannelException	jlang::ClosedChannelException*	core	exception
+java.nio.channels.CancelledKeyException	jlang::CancelledKeyException*	core	exception
+java.net.InetAddress	jlang::InetAddress*	jlang/Nio.h	ptr
+java.net.InetSocketAddress	jlang::InetSocketAddress*	jlang/Nio.h	ptr
+java.net.SocketAddress	jlang::InetSocketAddress*	jlang/Nio.h	ptr
+java.net.Socket	jlang::Socket*	jlang/Nio.h	ptr
+java.net.ServerSocket	jlang::ServerSocket*	jlang/Nio.h	ptr
+java.net.UnknownHostException	jlang::UnknownHostException*	core	exception
+java.net.SocketException	jlang::SocketException*	core	exception
+java.net.URL	jlang::Object*	core	unsupported	script/class-loader plumbing; rewrite
+java.net.URI	jlang::Object*	core	unsupported
+java.net.URLConnection	jlang::Object*	core	unsupported
+java.net.URLStreamHandler	jlang::Object*	core	unsupported
+java.net.URLStreamHandlerFactory	jlang::Object*	core	unsupported
+java.net.URLClassLoader	jlang::Object*	core	unsupported
+java.net.MalformedURLException	jlang::IOException*	core	exception
+# ---------------------------------------------------------------- security / crypto / math
+java.math.BigInteger	jlang::BigInteger*	jlang/Crypto.h	ptr
+java.security.MessageDigest	jlang::MessageDigest*	jlang/Crypto.h	ptr
+java.security.SecureRandom	jlang::SecureRandom*	jlang/Crypto.h	ptr
+java.security.KeyPairGenerator	jlang::KeyPairGenerator*	jlang/Crypto.h	ptr
+java.security.KeyPair	jlang::KeyPair*	jlang/Crypto.h	ptr
+java.security.Key	jlang::Key*	jlang/Crypto.h	iface
+java.security.PublicKey	jlang::RSAPublicKey*	jlang/Crypto.h	ptr
+java.security.PrivateKey	jlang::RSAPrivateKey*	jlang/Crypto.h	ptr
+java.security.interfaces.RSAKey	jlang::RSAKey*	jlang/Crypto.h	iface
+java.security.interfaces.RSAPublicKey	jlang::RSAPublicKey*	jlang/Crypto.h	ptr
+java.security.interfaces.RSAPrivateKey	jlang::RSAPrivateKey*	jlang/Crypto.h	ptr
+java.security.spec.RSAKeyGenParameterSpec	jlang::RSAKeyGenParameterSpec*	jlang/Crypto.h	ptr
+java.security.KeyFactory	jlang::Object*	core	unsupported	only in unused ngen/ssl code
+java.security.spec.PKCS8EncodedKeySpec	jlang::Object*	core	unsupported
+java.security.KeyStore	jlang::Object*	core	unsupported
+java.security.cert.Certificate	jlang::Object*	core	unsupported
+java.security.cert.CertificateFactory	jlang::Object*	core	unsupported
+java.security.cert.CRL	jlang::Object*	core	unsupported
+java.security.AccessController	jlang::Object*	core	unsupported
+java.security.PrivilegedExceptionAction	jlang::Object*	core	unsupported
+java.security.PrivilegedActionException	jlang::Exception*	core	exception
+java.security.GeneralSecurityException	jlang::GeneralSecurityException*	core	exception
+java.security.NoSuchAlgorithmException	jlang::NoSuchAlgorithmException*	core	exception
+java.security.InvalidParameterException	jlang::IllegalArgumentException*	core	exception
+java.security.KeyStoreException	jlang::GeneralSecurityException*	core	exception
+java.security.spec.InvalidKeySpecException	jlang::GeneralSecurityException*	core	exception
+java.security.cert.CertificateException	jlang::GeneralSecurityException*	core	exception
+java.security.cert.CRLException	jlang::GeneralSecurityException*	core	exception
+javax.crypto.Cipher	jlang::Cipher*	jlang/Crypto.h	ptr	"RSA/ECB/nopadding" DECRYPT_MODE; "Blowfish" unused beyond key bytes
+javax.crypto.KeyGenerator	jlang::KeyGenerator*	jlang/Crypto.h	ptr	getInstance("Blowfish").generateKey().getEncoded() -> 16 random bytes
+javax.crypto.SecretKey	jlang::SecretKey*	jlang/Crypto.h	ptr
+# ---------------------------------------------------------------- sql
+java.sql.Connection	jlang::Connection*	jlang/Sql.h	ptr
+java.sql.Statement	jlang::Statement*	jlang/Sql.h	ptr
+java.sql.PreparedStatement	jlang::PreparedStatement*	jlang/Sql.h	ptr
+java.sql.CallableStatement	jlang::CallableStatement*	jlang/Sql.h	ptr
+java.sql.ResultSet	jlang::ResultSet*	jlang/Sql.h	ptr
+java.sql.ResultSetMetaData	jlang::ResultSetMetaData*	jlang/Sql.h	ptr
+java.sql.DatabaseMetaData	jlang::DatabaseMetaData*	jlang/Sql.h	ptr
+java.sql.Savepoint	jlang::Savepoint*	jlang/Sql.h	ptr
+java.sql.Types	jlang::Types	jlang/Sql.h	static
+java.sql.Timestamp	jlang::Timestamp*	jlang/Time.h	ptr
+java.sql.Date	jlang::Date*	jlang/Time.h	ptr
+java.sql.SQLException	jlang::SQLException*	core	exception
+com.mysql.jdbc.exceptions.MySQLDataException	jlang::SQLException*	core	exception
+javax.sql.DataSource	jlang::DataSource*	jlang/Sql.h	ptr	jlang::DataSource = connection pool
+org.apache.commons.dbcp.PoolingDataSource	jlang::DataSource*	jlang/Sql.h	ptr
+org.apache.commons.dbcp.ConnectionFactory	jlang::Object*	core	unsupported	DatabaseFactory: rewrite on jlang::DataSource
+org.apache.commons.dbcp.DriverManagerConnectionFactory	jlang::Object*	core	unsupported
+org.apache.commons.dbcp.PoolableConnectionFactory	jlang::Object*	core	unsupported
+org.apache.commons.pool.ObjectPool	jlang::Object*	core	unsupported
+org.apache.commons.pool.KeyedObjectPoolFactory	jlang::Object*	core	unsupported
+org.apache.commons.pool.impl.GenericObjectPool	jlang::Object*	core	unsupported
+# ---------------------------------------------------------------- text / awt
+java.text.SimpleDateFormat	jlang::SimpleDateFormat*	jlang/Time.h	ptr
+java.text.DateFormat	jlang::SimpleDateFormat*	jlang/Time.h	ptr
+java.text.NumberFormat	jlang::DecimalFormat*	jlang/Time.h	ptr
+java.text.DecimalFormat	jlang::DecimalFormat*	jlang/Time.h	ptr
+java.text.ParseException	jlang::ParseException*	core	exception
+java.text.CharacterIterator	jlang::StringCharacterIterator*	core	ptr
+java.text.StringCharacterIterator	jlang::StringCharacterIterator*	core	ptr
+java.awt.Point	jlang::Point*	jlang/Geom.h	ptr
+java.awt.Polygon	jlang::Polygon*	jlang/Geom.h	ptr	contains() must match java.awt.Polygon exactly
+java.awt.Rectangle	jlang::Rectangle*	jlang/Geom.h	ptr
+java.awt.geom.RectangularShape	jlang::Rectangle*	jlang/Geom.h	ptr
+# ---------------------------------------------------------------- xml
+javax.xml.bind.JAXBContext	jlang::xml::JAXBContext*	jlang/Xml.h	ptr	JAXBContext.newInstance(Foo.class) -> jlang::xml::JAXBContext::newInstance<Foo>()
+javax.xml.bind.Unmarshaller	jlang::xml::Unmarshaller*	jlang/Xml.h	ptr	uses generated _jaxbUnmarshal
+javax.xml.bind.Marshaller	jlang::xml::Marshaller*	jlang/Xml.h	ptr	only SchemaGen/tools; minimal
+javax.xml.bind.JAXBException	jlang::xml::JAXBException*	jlang/Xml.h	exception
+javax.xml.bind.SchemaOutputResolver	jlang::Object*	core	unsupported	SchemaGen tool: drop
+javax.xml.bind.annotation.adapters.XmlAdapter	jlang::xml::XmlAdapter*	jlang/Xml.h	ptr	erased: unmarshal(Object*)->Object*
+javax.xml.validation.Schema	jlang::xml::Schema*	jlang/Xml.h	ptr	validation is a no-op
+javax.xml.validation.SchemaFactory	jlang::xml::SchemaFactory*	jlang/Xml.h	ptr
+javax.xml.XMLConstants	jlang::xml::XMLConstants	jlang/Xml.h	static
+javax.xml.namespace.QName	jlang::xml::QName*	jlang/Xml.h	ptr
+javax.xml.parsers.SAXParserFactory	jlang::xml::SAXParserFactory*	jlang/Xml.h	ptr
+javax.xml.parsers.SAXParser	jlang::xml::SAXParser*	jlang/Xml.h	ptr
+javax.xml.parsers.ParserConfigurationException	jlang::Exception*	core	exception
+org.xml.sax.helpers.DefaultHandler	jlang::xml::DefaultHandler*	jlang/Xml.h	ptr
+org.xml.sax.Attributes	jlang::xml::Attributes*	jlang/Xml.h	ptr
+org.xml.sax.Locator	jlang::xml::Locator*	jlang/Xml.h	ptr
+org.xml.sax.SAXException	jlang::xml::SAXException*	jlang/Xml.h	exception
+org.xml.sax.SAXParseException	jlang::xml::SAXParseException*	jlang/Xml.h	exception
+javax.xml.stream.XMLInputFactory	jlang::xml::XMLInputFactory*	jlang/Xml.h	ptr
+javax.xml.stream.XMLOutputFactory	jlang::xml::XMLOutputFactory*	jlang/Xml.h	ptr
+javax.xml.stream.XMLEventFactory	jlang::xml::XMLEventFactory*	jlang/Xml.h	ptr
+javax.xml.stream.XMLEventReader	jlang::xml::XMLEventReader*	jlang/Xml.h	ptr
+javax.xml.stream.XMLEventWriter	jlang::xml::XMLEventWriter*	jlang/Xml.h	ptr
+javax.xml.stream.XMLStreamException	jlang::xml::XMLStreamException*	jlang/Xml.h	exception
+javax.xml.stream.events.XMLEvent	jlang::xml::XMLEvent*	jlang/Xml.h	ptr
+javax.xml.stream.events.StartElement	jlang::xml::XMLEvent*	jlang/Xml.h	ptr	one event class exposes asStartElement() etc. returning itself
+javax.xml.stream.events.EndElement	jlang::xml::XMLEvent*	jlang/Xml.h	ptr
+javax.xml.stream.events.Characters	jlang::xml::XMLEvent*	jlang/Xml.h	ptr
+javax.xml.stream.events.Comment	jlang::xml::XMLEvent*	jlang/Xml.h	ptr
+javax.xml.stream.events.Attribute	jlang::xml::XMLAttribute*	jlang/Xml.h	ptr
+javax.xml.transform.Result	jlang::Object*	core	unsupported
+javax.xml.transform.stream.StreamResult	jlang::Object*	core	unsupported
+javax.tools.JavaCompiler	jlang::Object*	core	unsupported	runtime script compilation: replaced by the class registry
+javax.tools.JavaFileObject	jlang::Object*	core	unsupported
+javax.tools.JavaFileObject.Kind	jlang::Object*	core	unsupported
+javax.tools.SimpleJavaFileObject	jlang::Object*	core	unsupported
+javax.tools.ForwardingJavaFileManager	jlang::Object*	core	unsupported
+javax.tools.JavaFileManager	jlang::Object*	core	unsupported
+javax.tools.JavaFileManager.Location	jlang::Object*	core	unsupported
+javax.tools.StandardLocation	jlang::Object*	core	unsupported
+javax.tools.DiagnosticListener	jlang::Object*	core	unsupported
+javax.tools.Diagnostic	jlang::Object*	core	unsupported
+javax.tools.FileObject	jlang::Object*	core	unsupported
+javax.tools.ToolProvider	jlang::Object*	core	unsupported
+com.sun.tools.javac.file.BaseFileObject	jlang::Object*	core	unsupported
+# ---------------------------------------------------------------- log4j
+org.apache.log4j.Logger	jlang::Logger*	jlang/Log.h	ptr
+org.apache.log4j.Category	jlang::Logger*	jlang/Log.h	ptr
+org.apache.log4j.Level	jlang::log4j::Level*	jlang/Log.h	ptr
+org.apache.log4j.Priority	jlang::log4j::Level*	jlang/Log.h	ptr
+org.apache.log4j.LogManager	jlang::log4j::LogManager	jlang/Log.h	static
+org.apache.log4j.Hierarchy	jlang::Object*	core	unsupported	LoggingService override hack: drop
+org.apache.log4j.spi.LoggerFactory	jlang::log4j::LoggerFactory*	jlang/Log.h	iface
+org.apache.log4j.spi.LoggingEvent	jlang::log4j::LoggingEvent*	jlang/Log.h	ptr
+org.apache.log4j.spi.ThrowableInformation	jlang::log4j::ThrowableInformation*	jlang/Log.h	ptr
+org.apache.log4j.spi.Filter	jlang::log4j::Filter*	jlang/Log.h	ptr	subclassed by commons filters; decide() returns int (DENY/NEUTRAL/ACCEPT)
+org.apache.log4j.FileAppender	jlang::log4j::FileAppender*	jlang/Log.h	ptr	subclassed by TruncateToZipFileAppender
+org.apache.log4j.AppenderSkeleton	jlang::log4j::AppenderSkeleton*	jlang/Log.h	ptr
+org.apache.log4j.xml.DOMConfigurator	jlang::log4j::DOMConfigurator	jlang/Log.h	static
+org.apache.log4j.helpers.LogLog	jlang::log4j::LogLog	jlang/Log.h	static
+# ---------------------------------------------------------------- commons-lang / commons-io
+org.apache.commons.lang.ArrayUtils	jlang::ArrayUtils	core	static
+org.apache.commons.lang.StringUtils	jlang::StringUtils	core	static
+org.apache.commons.io.FileUtils	jlang::FileUtils	jlang/IO.h	static
+org.apache.commons.io.IOUtils	jlang::IOUtils	jlang/IO.h	static
+org.apache.commons.io.LineIterator	jlang::LineIterator*	jlang/IO.h	ptr
+org.apache.commons.io.filefilter.IOFileFilter	jlang::FileFilter*	jlang/IO.h	iface
+org.apache.commons.io.filefilter.FileFilterUtils	jlang::FileFilterUtils	jlang/IO.h	static
+org.apache.commons.io.filefilter.HiddenFileFilter	jlang::FileFilterUtils	jlang/IO.h	static	HiddenFileFilter.VISIBLE -> jlang::FileFilterUtils::VISIBLE()
+# ---------------------------------------------------------------- netty 3 (chatserver)
+org.jboss.netty.bootstrap.ServerBootstrap	jlang::netty::ServerBootstrap*	jlang/Netty.h	ptr
+org.jboss.netty.buffer.ChannelBuffer	jlang::netty::ChannelBuffer*	jlang/Netty.h	ptr
+org.jboss.netty.buffer.ChannelBuffers	jlang::netty::ChannelBuffers	jlang/Netty.h	static
+org.jboss.netty.buffer.HeapChannelBufferFactory	jlang::netty::HeapChannelBufferFactory*	jlang/Netty.h	ptr
+org.jboss.netty.channel.Channel	jlang::netty::Channel*	jlang/Netty.h	ptr
+org.jboss.netty.channel.ChannelFactory	jlang::netty::ChannelFactory*	jlang/Netty.h	ptr
+org.jboss.netty.channel.ChannelFuture	jlang::netty::ChannelFuture*	jlang/Netty.h	ptr
+org.jboss.netty.channel.ChannelFutureListener	jlang::netty::ChannelFutureListener*	jlang/Netty.h	iface
+org.jboss.netty.channel.ChannelHandler	jlang::netty::ChannelHandler*	jlang/Netty.h	iface
+org.jboss.netty.channel.ChannelHandlerContext	jlang::netty::ChannelHandlerContext*	jlang/Netty.h	ptr
+org.jboss.netty.channel.ChannelPipeline	jlang::netty::ChannelPipeline*	jlang/Netty.h	ptr
+org.jboss.netty.channel.ChannelPipelineFactory	jlang::netty::ChannelPipelineFactory*	jlang/Netty.h	iface
+org.jboss.netty.channel.ChannelStateEvent	jlang::netty::ChannelStateEvent*	jlang/Netty.h	ptr
+org.jboss.netty.channel.ExceptionEvent	jlang::netty::ExceptionEvent*	jlang/Netty.h	ptr
+org.jboss.netty.channel.MessageEvent	jlang::netty::MessageEvent*	jlang/Netty.h	ptr
+org.jboss.netty.channel.Channels	jlang::netty::Channels	jlang/Netty.h	static
+org.jboss.netty.channel.SimpleChannelUpstreamHandler	jlang::netty::SimpleChannelUpstreamHandler*	jlang/Netty.h	ptr
+org.jboss.netty.channel.group.ChannelGroup	jlang::netty::ChannelGroup*	jlang/Netty.h	ptr
+org.jboss.netty.channel.group.DefaultChannelGroup	jlang::netty::ChannelGroup*	jlang/Netty.h	ptr
+org.jboss.netty.channel.group.ChannelGroupFuture	jlang::netty::ChannelGroupFuture*	jlang/Netty.h	ptr
+org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory	jlang::netty::NioServerSocketChannelFactory*	jlang/Netty.h	ptr
+org.jboss.netty.handler.codec.frame.LengthFieldBasedFrameDecoder	jlang::netty::LengthFieldBasedFrameDecoder*	jlang/Netty.h	ptr
+org.jboss.netty.handler.codec.oneone.OneToOneDecoder	jlang::netty::OneToOneDecoder*	jlang/Netty.h	ptr
+org.jboss.netty.handler.codec.oneone.OneToOneEncoder	jlang::netty::OneToOneEncoder*	jlang/Netty.h	ptr
+org.jboss.netty.handler.execution.ExecutionHandler	jlang::netty::ExecutionHandler*	jlang/Netty.h	ptr
+org.jboss.netty.handler.execution.OrderedMemoryAwareThreadPoolExecutor	jlang::netty::OrderedMemoryAwareThreadPoolExecutor*	jlang/Netty.h	ptr
+# ---------------------------------------------------------------- libraries ported with the codebase
+com.aionengine.commons.configuration.ConfigurableProcessor	org::openaion::commons::configuration::ConfigurableProcessor	-	codebase	chatserver's ae-commons jar == commons/src
+com.aionengine.commons.configuration.Property	-	-	marker	annotation
+com.aionengine.commons.services.LoggingService	org::openaion::commons::services::LoggingService	-	codebase
+com.aionengine.commons.utils.AEInfos	org::openaion::commons::utils::AEInfos	-	codebase	add printSection(String)
+com.aionengine.commons.utils.PropertiesUtils	org::openaion::commons::utils::PropertiesUtils	-	codebase
+aionjHungary.geoEngine.*	aionjHungary::geoEngine::*	-	codebase	geoengine/src (decompiled jar, ported)
